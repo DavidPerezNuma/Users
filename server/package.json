@@ -4,15 +4,15 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "imports": {
-    "#config/*": "./config/*",
-    "#libs/*": "./libs/*",
-    "#middlewares/*": "./middlewares/*",
-    "#routers/*": "./routers/*",
-    "#services/*": "./services/*"
+    "#config/*": "./src/config/*",
+    "#libs/*": "./src/libs/*",
+    "#middlewares/*": "./src/middlewares/*",
+    "#routers/*": "./src/routers/*",
+    "#services/*": "./src/services/*"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
