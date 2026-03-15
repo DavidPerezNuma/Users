@@ -1,116 +1,52 @@
-import { Router } from 'express';
-import {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser
-} from '../libs/models/users.model.js';
+import { usersService } from "#services/users.service.js";
+import { Router } from "express";
+import { idUserSchema, createUserSchema, updateUserSchema } from "../middlewares/users.dto.js";
+import { validatorHandler } from "#middlewares/validator.handler.js";
 
 const router = Router();
 
-// Create user
-router.post('/', async (req, res) => {
-  try {
-    const user = await createUser(req.body);
-    res.status(201).json({
-      success: true,
-      data: user,
-      message: 'Usuario creado exitosamente'
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'Error al crear usuario',
-      error: err.message
-    });
-  }
-});
-
-// Get all users
-router.get('/', async (req, res) => {
-  try {
-    const users = await getAllUsers();
-    res.status(200).json({
-      success: true,
-      data: users,
-      count: users.length
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'Error al obtener usuarios',
-      error: err.message
-    });
-  }
-});
-
-// Get user by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const user = await getUserById(req.params.id);
-    
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'Usuario no encontrado'
-      });
+router.get('/', async (req, res, next) => {
+    try {
+        const users = await usersService.getAll();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
     }
-    
-    res.status(200).json({
-      success: true,
-      data: user
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'Error al obtener usuario',
-      error: err.message
-    });
-  }
 });
 
-// Update user
-router.put('/:id', async (req, res) => {
-  try {
-    const user = await updateUser(req.params.id, req.body);
-    res.status(200).json({
-      success: true,
-      data: user,
-      message: 'Usuario actualizado exitosamente'
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'Error al actualizar usuario',
-      error: err.message
-    });
-  }
-});
-
-// Delete user
-router.delete('/:id', async (req, res) => {
-  try {
-    const deleted = await deleteUser(req.params.id);
-    
-    if (!deleted) {
-      return res.status(404).json({
-        success: false,
-        message: 'Usuario no encontrado'
-      });
+router.get('/:id', validatorHandler(idUserSchema, 'params'), async (req, res, next) => {
+    try {
+        const user = await usersService.getById(req.params.id);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
     }
-    
-    res.status(200).json({
-      success: true,
-      message: 'Usuario eliminado exitosamente'
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'Error al eliminar usuario',
-      error: err.message
-    });
-  }
+});
+
+router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, next) => {
+    try {
+        const newUser = await usersService.create(req.body);
+        res.status(201).json(newUser);
+    } catch (error) {
+        next(error);
+    } });
+
+router.put('/:id', validatorHandler(idUserSchema, 'params'), validatorHandler(updateUserSchema, 'body'), async (req, res, next) => {
+    try {
+        const updatedUser = await usersService.update(req.params.id, req.body);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete('/:id', validatorHandler(idUserSchema, 'params'), async (req, res, next) => {
+    try {
+        await usersService.delete(req.params.id);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
 });
 
 export default router;
