@@ -68,34 +68,39 @@ config/
 
 ```
 server/
-├── app.js                   # Punto de entrada (servidor Express)
-├── package.json             # Dependencias del proyecto
-├── .env                     # Variables de entorno (desarrollo)
-├── .gitignore               # Archivos ignorados en Git
-├── Dockerfile               # Imagen Docker multistage
-├── Readme.md                # Este archivo
+├── src/
+│   ├── app.js                   # Punto de entrada (servidor Express)
+│   │
+│   ├── config/
+│   │   └── index.js             # Carga y gestión de variables de entorno
+│   │
+│   ├── libs/                    # Capa de acceso a datos
+│   │   ├── database.js          # Conexión y pool MySQL, CRUD genérico
+│   │   └── models/
+│   │       ├── index.js         # Inicializador de modelos
+│   │       └── users.model.js   # Definición de tabla users y esquema
+│   │
+│   ├── services/                # Lógica de negocio
+│   │   └── users.service.js     # Servicios relacionados con usuarios
+│   │
+│   ├── routers/                 # Capa de presentación (endpoints)
+│   │   ├── index.js             # Centralizador de rutas y versionamiento '/api/v1'
+│   │   ├── users.router.js      # Rutas CRUD /users
+│   │   └── healthCheck.router.js # Ruta de verificación de salud
+│   │
+│   ├── dto/                     # Definición de Data Transfer Objects (DTOs)
+│   │   └── users.dto.js         # Esquemas de validación para usuarios
+│   │
+│   └── middlewares/             # Componentes transversales
+│       ├── error.handler.js     # Manejo centralizado de errores
+│       └── validator.handler.js # Validación de requests con Joi
 │
-├── config/
-│   └── index.js             # Carga variables de entorno
-│
-├── libs/                    # Capa de acceso a datos
-│   ├── database.js          # Pool MySQL y CRUD genérico
-│   └── models/
-│       ├── index.js         # Inicializador de modelos
-│       └── users.model.js   # Tabla users y esquema
-│
-├── services/                # Capa de lógica de negocio
-│   └── users.service.js     # Servicios de usuarios
-│
-├── routers/                 # Capa de presentación
-│   ├── index.js             # Centralizador de rutas
-│   ├── users.router.js      # Rutas CRUD /api/v1/users
-│   └── healthCheck.router.js # Verificación de salud
-│
-└── middlewares/             # Componentes transversales
-    ├── error.handler.js     # Manejo de errores
-    ├── validator.handler.js # Validación de requests
-    └── users.dto.js         # Esquemas Joi
+├── package.json                 # Dependencias y scripts del proyecto
+├── package-lock.json            # Bloqueo de versiones exactas de dependencias
+├── .env                         # Variables de entorno 
+├── .gitignore                   # Archivos y carpetas ignorados por Git
+├── Dockerfile                   # Definición de imagen Docker
+└── Readme.md                    # Documentación del backend
 ```
 
 ---

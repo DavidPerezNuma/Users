@@ -1,6 +1,6 @@
 import { usersService } from "#services/users.service.js";
 import { Router } from "express";
-import { idUserSchema, createUserSchema, updateUserSchema } from "../middlewares/users.dto.js";
+import { idUserSchema, createUserSchema, updateUserSchema } from "#dto/users.dto.js";
 import { validatorHandler } from "#middlewares/validator.handler.js";
 
 const router = Router();

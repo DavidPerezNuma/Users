@@ -12,7 +12,8 @@
     "#libs/*": "./src/libs/*",
     "#middlewares/*": "./src/middlewares/*",
     "#routers/*": "./src/routers/*",
-    "#services/*": "./src/services/*"
+    "#services/*": "./src/services/*",
+    "#dto/*": "./src/dto/*"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

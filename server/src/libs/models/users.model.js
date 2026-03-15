@@ -1,4 +1,4 @@
-import { db } from '../database.js';
+import { db } from "#libs/database.js";
 
 // Initialize users table
 const initializeUsersTable = async () => {
