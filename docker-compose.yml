@@ -1,9 +1,11 @@
 services:
-  app:
+
+  techstaff_backend:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: usuarios_app
+    container_name: TechStaff_backend
+    restart: unless-stopped
     ports:
       - "3000:3000"
     depends_on:
@@ -11,39 +13,64 @@ services:
         condition: service_healthy
     environment:
       DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: Admin123
-      DB_NAME: users
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
       DB_PORT: 3306
       HOST: 0.0.0.0
       PORT: 3000
+    networks:
+      - techstaff_network
+
+  techstaff_frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: TechStaff_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - techstaff_backend
+    environment:
+      VITE_BACKEND_URL: http://localhost:3000/api/v1
+    networks:
+      - techstaff_network
 
   db:
     image: mysql:8.0
-    container_name: mysql_db
-    restart: always
+    container_name: TechStaff_Database
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: Admin123
-      MYSQL_DATABASE: users
-    ports:
-      - "3306:3306"
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pAdmin123"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - techstaff_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_viewer
-    restart: always
+    container_name: TechStaff_Database_Visualizer
+    restart: unless-stopped
     ports:
       - "8081:80"
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: Admin123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - techstaff_network
 
 volumes:
   db_data:
+
+networks:
+  techstaff_network:
+    driver: bridge
