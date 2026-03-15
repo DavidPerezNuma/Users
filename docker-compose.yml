@@ -1,8 +1,7 @@
-version: "3.9"
 services:
   app:
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile
     container_name: usuarios_app
     ports:
