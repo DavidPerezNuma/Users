@@ -1,14 +1,13 @@
 import express from 'express';
+import cors from 'cors';
 import { config } from './config/index.js';
 import { logErrors, boomError, errorHandler } from './middlewares/error.handler.js';
 import { RouterApi } from './routers/index.js';
 import { initializeModels } from '#libs/models/index.js';
 
-/**
- * @description Initializes the Express application.
- */
 const app = express();
 app.use(express.json());
+app.use(cors({ origin: '*' }));
 
 /**
   * @description Initializes tables and models required for the application database.
