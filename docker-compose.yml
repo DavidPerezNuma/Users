@@ -33,7 +33,7 @@ services:
     depends_on:
       - techstaff_backend
     environment:
-      VITE_BACKEND_URL: http://localhost:3000/api/v1
+      VITE_BACKEND_URL: /api/v1
     networks:
       - techstaff_network
 
