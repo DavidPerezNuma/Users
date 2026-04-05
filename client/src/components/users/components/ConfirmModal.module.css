@@ -1,0 +1,91 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: #111318;
+    border: 1px solid #ff4d4d44;
+    border-radius: 10px;
+    padding: 32px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 0 40px rgba(255, 77, 77, 0.15);
+    text-align: center;
+}
+
+.icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+.title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff4d4d;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.message {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    color: #8892a4;
+    margin-bottom: 28px;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btnConfirm {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+}
+
+.btnConfirm:hover {
+    background: #ff4d4d;
+    color: #0a0a0a;
+    box-shadow: 0 0 16px rgba(255, 77, 77, 0.5);
+}
+
+.btnCancel {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid #1a1f2e;
+    color: #8892a4;
+}
+
+.btnCancel:hover {
+    border-color: #8892a4;
+    color: #e0e0e0;
+}

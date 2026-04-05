@@ -1,13 +1,20 @@
+import { useState } from "react";
 import styles from "../Users.module.css";
+import ConfirmModal from "./ConfirmModal";
 
 const DeleteUserButton = ({ userId, onDelete }) => {
-    const handleDelete = async () => {
-        if (!confirm("¿Eliminar este usuario?")) return;
+    const [showModal, setShowModal] = useState(false);
+
+    const handleConfirm = async () => {
+        setShowModal(false);
         await onDelete(userId);
     };
 
     return (
-        <button className={styles.btnDelete} onClick={handleDelete}>Eliminar</button>
+        <>
+            <button className={styles.btnDelete} onClick={() => setShowModal(true)}>Eliminar</button>
+            {showModal && <ConfirmModal onConfirm={handleConfirm} onCancel={() => setShowModal(false)} />}
+        </>
     );
 };
 
