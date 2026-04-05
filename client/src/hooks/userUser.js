@@ -13,7 +13,11 @@ const useUsers = () => {
                 const data = await userService.getAllUsers();
                 setUsers(data);
             } catch (err) {
-                setError(err);
+                if (err?.response?.status === 404) {
+                    setUsers([]);
+                } else {
+                    setError(err);
+                }
             } finally {
                 setLoading(false);
             }
