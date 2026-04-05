@@ -1,6 +1,6 @@
 # TechStaff Frontend
 
-Aplicación frontend para gestión de usuarios construida con React y Vite, siguiendo una arquitectura de componentes modulares por funcionalidad.
+Aplicación frontend para gestión de usuarios construida con React y Vite, siguiendo una arquitectura de componentes modulares por funcionalidad. Diseño visual dark neon futurista.
 
 ---
 
@@ -37,11 +37,17 @@ client/
 │   │   └── useHealthCheck.js      # Estado del health check
 │   │
 │   ├── components/                # Componentes de presentación
+│   │   ├── form/                  # Feature de formulario
+│   │   │   ├── index.jsx          # Formulario de creación y edición de usuarios
+│   │   │   └── Form.module.css    # Estilos modulares del formulario
+│   │   │
 │   │   ├── users/                 # Feature de usuarios
 │   │   │   ├── components/        # Subcomponentes atómicos
 │   │   │   │   ├── UserTable.jsx        # Tabla que lista todos los usuarios
-│   │   │   │   ├── EditUserButton.jsx   # Botón con lógica de edición
-│   │   │   │   └── DeleteUserButton.jsx # Botón con lógica de eliminación
+│   │   │   │   ├── EditUserButton.jsx   # Botón que carga el usuario en el formulario
+│   │   │   │   ├── DeleteUserButton.jsx # Botón que abre el modal de confirmación
+│   │   │   │   ├── ConfirmModal.jsx     # Modal de confirmación para eliminar
+│   │   │   │   └── ConfirmModal.module.css
 │   │   │   ├── Users.module.css   # Estilos modulares del feature
 │   │   │   └── index.jsx          # Componente raíz que compone los subcomponentes
 │   │   │
@@ -49,9 +55,8 @@ client/
 │   │       ├── HealthCheck.module.css # Estilos modulares
 │   │       └── index.jsx          # Alerta visual del estado del servicio
 │   │
-│   ├── App.jsx                    # Raíz de la aplicación, compone los features
-│   ├── App.css                    # Estilos globales base
-│   ├── index.css                  # Reset y estilos del body
+│   ├── App.jsx                    # Raíz de la aplicación — orquesta estado y componentes
+│   ├── index.css                  # Reset y estilos globales (tema dark neon)
 │   └── main.jsx                   # Punto de entrada, monta React en el DOM
 │
 ├── dockerfile                     # Imagen Docker del frontend
@@ -71,9 +76,33 @@ Hook (useUsers.js)
 Servicio (user.service.js)
    ↓ usa
 API (api.js → Axios)
-   ↓ HTTP
-Backend (http://localhost:3000/api/v1)
+   ↓ HTTP proxy Vite
+Backend (http://techstaff_backend:3000/api/v1)
 ```
+
+---
+
+## 🎨 Diseño
+
+El proyecto usa un tema **dark neon futurista minimalista**:
+
+- Fondo negro profundo `#0a0a0a`
+- Fuentes: `Orbitron` (títulos/botones) y `Rajdhani` (texto)
+- Acentos en cyan `#00d2ff`, verde `#00ff9c`, azul `#00cfff` y rojo `#ff4d4d`
+- Inputs con borde cyan y glow en focus
+- Botones diferenciados por acción: crear (verde), actualizar (azul), cancelar/eliminar (rojo)
+
+---
+
+## ⚙️ Funcionalidades
+
+| Acción | Descripción |
+|--------|-------------|
+| Listar usuarios | Tabla con skeleton cuando no hay registros |
+| Crear usuario | Formulario con validación de campos requeridos |
+| Editar usuario | El formulario se precarga con los datos del usuario seleccionado. El botón "Actualizar" solo se habilita si hay cambios |
+| Eliminar usuario | Modal de confirmación neon antes de ejecutar la acción |
+| Health Check | Alerta de estado del servicio con botón para cerrar |
 
 ---
 
@@ -114,8 +143,6 @@ Requiere que el backend esté corriendo en `http://localhost:3000`.
 ---
 
 ## 🔧 Variables de entorno
-
-La única variable de entorno del frontend es:
 
 ```env
 VITE_BACKEND_URL=/api/v1
