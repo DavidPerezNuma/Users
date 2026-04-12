@@ -23,6 +23,17 @@ function App() {
       {showHealth && <HealthCheck onClose={() => setShowHealth(false)} />}
       <UserForm onSubmit={handleSubmit} editingUser={editingUser} onCancel={() => setEditingUser(null)} />
       <Users users={users} loading={loading} error={error} onEdit={setEditingUser} onDelete={deleteUser} />
+    <footer style={{ 
+          marginTop: '40px', 
+          padding: '20px', 
+          borderTop: '1px solid #ccc', 
+          textAlign: 'center',
+          backgroundColor: '#f9f9f9'
+      }}>
+        <p><strong>Soporte Técnico</strong></p>
+        <p>Contacto: ju-medina@correo.com</p>
+        <p>Horario: Lunes a Viernes (8:00 AM - 6:00 PM)</p>
+      </footer>
     </>
   )
 }
